@@ -250,6 +250,7 @@ function scrapeTireData($, url) {
     $('span[id^="product-price-"]').first().text().trim() ||
     $(".price-final").text().trim() ||
     $(".regular-price").text().trim();
+const vehicleTypeImage = $('img.v_type').attr('src') || '';
 
   const originalSetPrice = getText("div.set_price span.price");
 
@@ -306,6 +307,7 @@ function scrapeTireData($, url) {
     tyreWidth: getText("span.tire_width"),
     tyreAspectRatio: getText("span.tire_aspect_ratio"),
     catagory: "Tyres",
+    vehicleTypeImage: vehicleTypeImage,
   };
 
   $("div.product_detail_right tr").each((i, row) => {
@@ -392,6 +394,7 @@ async function saveData(newData, finalSave = false) {
         Ratio: item.ratio,
         Rim: item.rim,
         Category: item.catagory,
+        "Vehicle Type Image": item.vehicleTypeImage || "",
       }));
 
       const workbook = XLSX.utils.book_new();
