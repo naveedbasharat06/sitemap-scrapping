@@ -252,7 +252,16 @@ function scrapeTireData($, url) {
     $(".regular-price").text().trim();
 const vehicleTypeImage = $('img.v_type').attr('src') || '';
 
+let vehicleType = "";
+if (vehicleTypeImage) {
+  if (vehicleTypeImage.toLowerCase().includes("4x4")) vehicleType = "4x4";
+  else if (vehicleTypeImage.toLowerCase().includes("car")) vehicleType = "Car";
+  else if (vehicleTypeImage.toLowerCase().includes("runflat")) vehicleType = "RunFlat";
+  else if (vehicleTypeImage.toLowerCase().includes("truck")) vehicleType = "Truck";
+  else vehicleType = "Other";
+}
   const originalSetPrice = getText("div.set_price span.price");
+
 
   const tireData = {
     url: url,
@@ -308,6 +317,8 @@ const vehicleTypeImage = $('img.v_type').attr('src') || '';
     tyreAspectRatio: getText("span.tire_aspect_ratio"),
     catagory: "Tyres",
     vehicleTypeImage: vehicleTypeImage,
+    vehicleType: vehicleType,
+    
   };
 
   $("div.product_detail_right tr").each((i, row) => {
@@ -395,6 +406,8 @@ async function saveData(newData, finalSave = false) {
         Rim: item.rim,
         Category: item.catagory,
         "Vehicle Type Image": item.vehicleTypeImage || "",
+        "Vehicle Type": item.vehicleType || "",
+
       }));
 
       const workbook = XLSX.utils.book_new();
